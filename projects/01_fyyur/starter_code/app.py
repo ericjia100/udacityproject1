@@ -263,8 +263,9 @@ def show_venue(venue_id):
     #     "upcoming_shows_count": 1,
     # }
     # data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
-    data = {
 
+
+    data = {
     }
     return render_template('pages/show_venue.html', venue=data)
 
@@ -292,13 +293,24 @@ def create_venue_submission():
             genres=request.form['genres'],
             image_link=request.form['image_link'],
             facebook_link=request.form['facebook_link'],
+            website=request.form['website'],
+            seeking_talent=request.form['seeking_talent'],
+            seeking_description=request.form['seeking_description']
         )
+        db.session.add(new_venue)
+        db.session.commit()
+        # on successful db insert, flash success
+        flash('Venue ' + request.form['name'] + ' was successfully listed!')
+    except Exception as exception:
+        # TODO: on unsuccessful db insert, flash an error instead.
+        # e.g., flash('An error occurred. Venue ' + data.name + ' could not be listed.')
+        # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
+        flash('An error occurred. Venue ' + request.form['name'] + ' could not be listed.')
+        db.session.rollback()
 
-    # on successful db insert, flash success
-    flash('Venue ' + request.form['name'] + ' was successfully listed!')
-    # TODO: on unsuccessful db insert, flash an error instead.
-    # e.g., flash('An error occurred. Venue ' + data.name + ' could not be listed.')
-    # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
+        print(exception)
+    finally:
+        db.session.close()
     return render_template('pages/home.html')
 
 
@@ -306,10 +318,15 @@ def create_venue_submission():
 def delete_venue(venue_id):
     # TODO: Complete this endpoint for taking a venue_id, and using
     # SQLAlchemy ORM to delete a record. Handle cases where the session commit could fail.
-
+    try:
+        Venue.query.filter(Venue.id == venue_id).delete()
+    except Exception as exception:
+        db.session.rollback()
+    finally:
+        db.session.close()
     # BONUS CHALLENGE: Implement a button to delete a Venue on a Venue Page, have it so that
     # clicking that button delete it from the db then redirect the user to the homepage
-    return None
+    return render_template('pages/home.html')
 
 
 #  Artists
