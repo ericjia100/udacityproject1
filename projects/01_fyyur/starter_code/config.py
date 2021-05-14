@@ -10,6 +10,7 @@ DEBUG = True
 
 
 # TODO IMPLEMENT DATABASE URL
+# Normal formatting for connecting to a database is connection://user:password@localhost:5432/database.
 SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@localhost:5432/postgres'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
