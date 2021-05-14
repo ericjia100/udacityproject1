@@ -136,7 +136,7 @@ def venues():
     #   }]
     # }]
     data = []
-    places = db.session.query(Venue.city, Venue.state).distinct(Venue.city, Venue.state)
+    places = db.session.query(Venue.state, Venue.city).distinct(Venue.state, Venue.city)
     curr_time = datetime.now()
 
     for place in places:
@@ -331,7 +331,6 @@ def create_venue_submission():
     # TODO: insert form data as a new Venue record in the db, instead
     # TODO: modify data to be the data object returned from db insertion
     try:
-        print(request)
         new_venue = Venue(
             name=request.form['name'],
             city=request.form['city'],
@@ -342,12 +341,13 @@ def create_venue_submission():
             facebook_link=request.form['facebook_link'],
             genres=request.form.getlist('genres'),
             website=request.form['website_link'],
-            seeking_talent=request.form['seeking_talent'],
             seeking_description=request.form['seeking_description']
         )
-        if new_venue.seeking_talent == 'y':
-            new_venue.seeking_talent = True
-        else:
+        try:
+            new_venue.seeking_talent = request.form['seeking_talent']
+            if new_venue.seeking_talent == 'y':
+                new_venue.seeking_talent = True
+        except Exception as exception:
             new_venue.seeking_talent = False
 
         db.session.add(new_venue)
