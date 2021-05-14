@@ -140,7 +140,7 @@ def venues():
     curr_time = datetime.now()
 
     for place in places:
-        venues_total = Venue.query.filter(Venue.state == place.state).filter(Venue.city == place.state).all()
+        venues_total = Venue.query.filter(Venue.state == place.state).filter(Venue.city == place.city).all()
         venues_info = []
         for venue in venues_total:
             venues_info.append({
