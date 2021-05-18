@@ -279,7 +279,7 @@ def show_venue(venue_id):
             "artist_id": upcoming_show[1],
             "artist_name": upcoming_show[2],
             "image_link": upcoming_show[3],
-            "start_time": upcoming_show[4]
+            "start_time": str(upcoming_show[4])
         }
         upcoming_shows_details.append(details)
 
@@ -292,7 +292,7 @@ def show_venue(venue_id):
             "artist_id": past_show[1],
             "artist_name": past_show[2],
             "image_link": past_show[3],
-            "start_time": past_show[4]
+            "start_time": str(past_show[4])
         }
         past_shows_details.append(details)
 
@@ -516,7 +516,7 @@ def show_artist(artist_id):
             "venue_id": upcoming_show[1],
             "venue_name": upcoming_show[2],
             "image_link": upcoming_show[3],
-            "start_time": upcoming_show[4]
+            "start_time": str(upcoming_show[4])
         }
         upcoming_shows_details.append(details)
 
@@ -529,7 +529,7 @@ def show_artist(artist_id):
             "venue_id": past_show[1],
             "venue_name": past_show[2],
             "image_link": past_show[3],
-            "start_time": past_show[4]
+            "start_time": str(past_show[4])
         }
         past_shows_details.append(details)
 
@@ -787,7 +787,7 @@ def shows():
             "artist_id": show.artist_id,
             "artist_name": show.artist.name,
             "artist_image_link": show.artist.image_link,
-            "start_time": show.start_time
+            "start_time": str(show.start_time)
         }
         data.append(show_details)
     return render_template('pages/shows.html', shows=data)
