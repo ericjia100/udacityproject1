@@ -78,7 +78,6 @@ class Show(db.Model):
     artist_id = db.Column(db.Integer, db.ForeignKey('Artist.id'))
     venue_id = db.Column(db.Integer, db.ForeignKey('Venue.id'))
 
-
 db.create_all()
 
 
@@ -702,7 +701,7 @@ def create_artist_submission():
             city=request.form['city'],
             state=request.form['state'],
             phone=request.form['phone'],
-            genres = request.form.getlist('genres'),
+            genres=request.form.getlist('genres'),
             image_link=request.form['image_link'],
             facebook_link=request.form['facebook_link'],
             website=request.form['website_link'],
@@ -819,9 +818,9 @@ def create_show_submission():
         # TODO: on unsuccessful db insert, flash an error instead.
         # e.g., flash('An error occurred. Show could not be listed.')
         # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
+        flash('An error occurred. Show could not be listed.')
         db.session.rollback()
 
-        flash('An error occurred. Show could not be listed.')
         print(exception)
     finally:
         db.session.close()
