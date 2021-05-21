@@ -1,7 +1,13 @@
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask import Flask
+from flask_moment import Moment
+from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+app = Flask(__name__)
+moment = Moment(app)
+app.config.from_object('config')
+db = SQLAlchemy(app)
+
 
 # ----------------------------------------------------------------------------#
 # Models.
@@ -54,3 +60,6 @@ class Show(db.Model):
     start_time = db.Column(db.DateTime, default=datetime.now())
     artist_id = db.Column(db.Integer, db.ForeignKey('Artist.id'))
     venue_id = db.Column(db.Integer, db.ForeignKey('Venue.id'))
+
+
+db.create_all()
